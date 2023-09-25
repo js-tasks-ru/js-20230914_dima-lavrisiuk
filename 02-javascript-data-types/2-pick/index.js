@@ -7,7 +7,7 @@
 export const pick = (obj, ...fields) => {
   const newObject = {};
 
-  fields.map((key) => {
+  fields.forEach((key) => {
     if (obj.hasOwnProperty(key)) {
       newObject[key] = obj[key];
     }

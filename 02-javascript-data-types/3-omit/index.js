@@ -7,7 +7,7 @@
 export const omit = (obj, ...fields) => {
   const newObject = {...obj};
 
-  fields.map((item) => {
+  fields.forEach((item) => {
     if (obj.hasOwnProperty(item)) {
       delete newObject[item];
     }
