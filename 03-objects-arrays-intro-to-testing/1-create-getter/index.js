@@ -7,14 +7,16 @@ export function createGetter(path) {
   const pathToElement = path.split('.');
 
   return (obj) => {
-    return pathToElement.reduce((previous, current, i) => {
+    const bufferPath = [...pathToElement];
+    return bufferPath.reduce((previous, current, i) => {
       if (!previous?.hasOwnProperty(current)) {
+        bufferPath.length = 0;
         return;
       }
 
       previous = previous[current];
 
-      if (i <= pathToElement.length) {
+      if (i <= bufferPath.length) {
         return previous;
       }
     }, obj);
