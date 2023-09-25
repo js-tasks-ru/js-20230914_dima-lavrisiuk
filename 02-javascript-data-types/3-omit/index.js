@@ -5,5 +5,13 @@
  * @returns {object} - returns the new object
  */
 export const omit = (obj, ...fields) => {
+  const newObject = {...obj};
 
+  fields.map((item) => {
+    if (obj.hasOwnProperty(item)) {
+      delete newObject[item];
+    }
+  });
+
+  return newObject;
 };
