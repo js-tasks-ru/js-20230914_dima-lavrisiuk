@@ -6,13 +6,13 @@ export default class ColumnChart {
 
   /**
    * Create a chart.
-   * @property {Object} config - Settings object
-   * @property {array}  config.data - Data array for the chart
-   * @property {string} config.label - Chart Title
-   * @property {number} config.value - Number of chart headings
-   * @property {string} config.link - The value of the href attribute
-   * @property {number} config.chartHeight - Chart Height
-   * @property {function} config.formatHeading - Function for output Number of chart headings
+   * @param {Object} config - Settings object
+   * @param {array}  config.data - Data array for the chart
+   * @param {string} config.label - Chart Title
+   * @param {number} config.value - Number of chart headings
+   * @param {string} config.link - The value of the href attribute
+   * @param {number} config.chartHeight - Chart Height
+   * @param {function} config.formatHeading - Function for output Number of chart headings
    */
   constructor(config) {
     this.data           = config?.data;
