@@ -5,7 +5,7 @@ export default class ColumnChart {
   #element = null;
 
   /**
-   * Create a point.
+   * Create a chart.
    * @property {Object} config - Settings object
    * @property {array}  config.data - Data array for the chart
    * @property {string} config.label - Chart Title
