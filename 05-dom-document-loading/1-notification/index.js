@@ -32,14 +32,18 @@ export default class NotificationMessage {
   get timeoutID() { return this.#timeoutID; }
   set timeoutID(fn) { this.#timeoutID = (typeof fn === "function") ? fn : (s) => s; }
 
-  show(node = null) {
+  show(node = document.body) {
     if( NotificationMessage.current ) {
       this.destroy.call(NotificationMessage.current);
+      NotificationMessage.current = null;
     }
 
     NotificationMessage.current = this;
-    this.timeoutID = setTimeout(() => this.destroy(), this.duration);
-    (node || document.body).insertAdjacentElement('beforeend', this.element);
+    this.timeoutID = setTimeout(() => {
+      this.destroy();
+      NotificationMessage.current = null;
+    }, this.duration);
+    node.insertAdjacentElement('beforeend', this.element);
   }
 
   render() {
@@ -47,13 +51,12 @@ export default class NotificationMessage {
   }
 
   remove() {
-    this.element.remove();
+    this.#element.remove();
   }
 
   destroy() {
     this.remove();
     clearTimeout(this.timeoutID);
-    NotificationMessage.current = null;
   }
 
   template() {
