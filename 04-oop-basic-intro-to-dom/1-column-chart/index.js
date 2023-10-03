@@ -69,7 +69,7 @@ export default class ColumnChart {
     const coefficientOfProportionality = max / this.chartHeight;
 
     return this.data.reduce((str, x) => {
-      return str += this._templateChartLine(x / coefficientOfProportionality, (x * 100) / max);
+      return str + this._templateChartLine(x / coefficientOfProportionality, (x * 100) / max);
     }, "");
   }
 
