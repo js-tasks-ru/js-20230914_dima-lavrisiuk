@@ -12,7 +12,15 @@ export default class SortableTable {
     this.render();
   }
 
+  get headerConfig() { return this.#headerConfig; }
+  set headerConfig(value) { this.#headerConfig = value; }
+
+  get data() { return this.#data; }
+  set data(value) { this.#data = value; }
+
   get element() { return this.#element; }
+  set element(value) { this.#element = value; }
+
   get subElements() { return this.#subElements; }
 
 
