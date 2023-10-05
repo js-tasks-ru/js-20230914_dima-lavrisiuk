@@ -24,9 +24,11 @@ class Tooltip {
   }
 
   handlerDocumentPointerOver = (e) => {
-    if (!e.target?.dataset.tooltip) return;
+    const target = e.target?.dataset.tooltip || e.target.closest('[data-tooltip]').dataset.tooltip;
 
-    this.content = e.target?.dataset.tooltip;
+    if (!target) return;
+
+    this.content = target;
     this.render();
     document.addEventListener('pointermove', this.handlerDocumentPointerMove);
     document.addEventListener("pointerout", this.handlerDocumentPointerOut);
