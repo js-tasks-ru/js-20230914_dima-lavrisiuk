@@ -1,6 +1,75 @@
-class Tooltip {
-  initialize () {
+import createElement from "../../assets/lib/create-element.js";
 
+class Tooltip {
+  static #onlyInstance = null;
+  #element = null;
+  #content = null;
+
+  constructor() {
+    if (Tooltip.#onlyInstance) {
+      return Tooltip.#onlyInstance;
+    } else {
+      Tooltip.#onlyInstance = this;
+    }
+  }
+
+  get element() { return this.#element; }
+  set element(value) { this.#element = value; }
+
+  get content() { return this.#content; }
+  set content(value) { this.#content = value; }
+
+  initialize () {
+    this.createEventListeners();
+  }
+
+  handlerDocumentPointerOver = (e) => {
+    if (!e.target?.dataset.tooltip) return;
+
+    this.content = e.target?.dataset.tooltip;
+    this.render();
+    document.addEventListener('pointermove', this.handlerDocumentPointerMove);
+    document.addEventListener("pointerout", this.handlerDocumentPointerOut);
+  }
+
+  handlerDocumentPointerOut = () => {
+    this.content = null;
+    this.remove();
+    document.removeEventListener('pointermove', this.handlerDocumentPointerMove);
+    document.removeEventListener("pointerout", this.handlerDocumentPointerOut);
+  }
+
+  handlerDocumentPointerMove = (e) => {
+    this.element.style.position = `absolute`;
+    this.element.style.left = `${ 10 + e.clientX }px`;
+    this.element.style.top = `${ 10 + e.clientY }px`;
+  }
+
+  createEventListeners() {
+    document.addEventListener("pointerover", this.handlerDocumentPointerOver);
+  }
+
+  destroyEventListeners() {
+    document.removeEventListener("pointerover", this.handlerDocumentPointerOver);
+  }
+
+  render() {
+    this.element = createElement(this.template());
+    document.body.append(this.element);
+  }
+
+  remove() {
+    this.element.remove();
+  }
+
+  destroy() {
+    this.remove();
+    this.destroyEventListeners();
+    Tooltip.#onlyInstance = null;
+  }
+
+  template() {
+    return `<div class="tooltip">${ this.content }</div>`;
   }
 }
 
