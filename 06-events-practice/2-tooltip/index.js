@@ -1,6 +1,8 @@
 import createElement from "../../assets/lib/create-element.js";
 
 class Tooltip {
+  static get INDENTS_X() { return 10; }
+  static get INDENTS_Y() { return 10; }
   static #onlyInstance = null;
   #element = null;
   #content = null;
@@ -35,7 +37,6 @@ class Tooltip {
   }
 
   handlerDocumentPointerOut = () => {
-    this.content = null;
     this.remove();
     document.removeEventListener('pointermove', this.handlerDocumentPointerMove);
     document.removeEventListener("pointerout", this.handlerDocumentPointerOut);
@@ -43,8 +44,8 @@ class Tooltip {
 
   handlerDocumentPointerMove = (e) => {
     this.element.style.position = `absolute`;
-    this.element.style.left = `${ 10 + e.clientX }px`;
-    this.element.style.top = `${ 10 + e.clientY }px`;
+    this.element.style.left = `${ Tooltip.INDENTS_X + e.clientX }px`;
+    this.element.style.top = `${ Tooltip.INDENTS_Y + e.clientY }px`;
   }
 
   createEventListeners() {
