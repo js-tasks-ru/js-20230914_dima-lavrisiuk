@@ -31,7 +31,6 @@ export default class DoubleSlider {
     this.updateElementSpan(this.subElements.span.left, value);
     this.updateElementSlider(this.subElements.slider.left, "left", shiftPercentLeft);
     this.updateElementProgressBar("left", shiftPercentLeft);
-
     this.options.selected.from = value;
   }
 
@@ -40,7 +39,6 @@ export default class DoubleSlider {
     this.updateElementSpan(this.subElements.span.right, value);
     this.updateElementSlider(this.subElements.slider.right, "right", shiftPercentRight);
     this.updateElementProgressBar("right", shiftPercentRight);
-
     this.options.selected.to = value;
   }
 
@@ -75,8 +73,6 @@ export default class DoubleSlider {
 
   handlerDocumentPointerMove = (event) => {
     event.preventDefault();
-    // event.target.setPointerCapture(event.pointerId); - Ломает тесты
-    // this.activeTarget - фиксирую event.target
 
     const shiftX = Number(event.clientX) - this.progressBarBoundingClientRectX;
     const shiftPercent = (shiftX / this.progressBarWidth) * 100;
@@ -95,7 +91,6 @@ export default class DoubleSlider {
       else { this.updateRightSide(newValue.toFixed(0)) }
 
     }
-    console.log(`shiftX: ${ shiftX }\nfrom: ${ newValue }\n(this.from, this.to): ${ this.from } ${ this.to }`);
   }
 
   generateCustomEvent() {
