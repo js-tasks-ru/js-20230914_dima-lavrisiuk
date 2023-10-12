@@ -1,11 +1,10 @@
 import createElement from "../../assets/lib/create-element.js";
 export default class DoubleSlider {
+  progressBarBoundingClientRectX = null;
+  activeTarget = null;
   options       = {};
   subElements   = {};
   element       = null;
-
-  activeTarget = null;
-  progressBarBoundingClientRectX = null;
 
   constructor({ min, max, formatValue, selected } = {}) {
     this.options.min          = min || 0;
@@ -19,6 +18,14 @@ export default class DoubleSlider {
     this.createEventListeners();
   }
 
+  get min() { return this.options.min }
+  get max() { return this.options.max }
+  get from() { return Number(this.options.selected.from) }
+  get to() { return Number(this.options.selected.to) }
+  get progressBarWidth() { return this.subElements.inner.offsetWidth }
+  get minMaxDifference() { return this.max - this.min }
+  get progressBarClientRectX() { return this.subElements.inner.getBoundingClientRect().x }
+
   updateLeftSide(value) {
     const shiftPercentLeft = ((value - this.min) / this.minMaxDifference) * 100;
     this.updateElementSpan(this.subElements.span.left, value);
@@ -29,7 +36,7 @@ export default class DoubleSlider {
   }
 
   updateRightSide(value) {
-    const shiftPercentRight = 100 -(((value - this.min) / this.minMaxDifference) * 100);
+    const shiftPercentRight = 100 - (((value - this.min) / this.minMaxDifference) * 100);
     this.updateElementSpan(this.subElements.span.right, value);
     this.updateElementSlider(this.subElements.slider.right, "right", shiftPercentRight);
     this.updateElementProgressBar("right", shiftPercentRight);
@@ -49,16 +56,7 @@ export default class DoubleSlider {
     this.subElements.progress.style[prop] = `${ value }%`;
   }
 
-  get min() { return this.options.min }
-  get max() { return this.options.max }
-  get from() { return Number(this.options.selected.from) }
-  get to() { return Number(this.options.selected.to) }
-  get progressBarWidth() { return this.subElements.inner.offsetWidth }
-  get minMaxDifference() { return this.max - this.min }
-  get progressBarClientRectX() { return this.subElements.inner.getBoundingClientRect().x }
-
   handlerSliderPointerDown = (event) => {
-    event.preventDefault();
     this.element.classList.add('range-slider_dragging');
     this.activeTarget = event.target;
     this.progressBarBoundingClientRectX = this.progressBarClientRectX;
@@ -67,12 +65,11 @@ export default class DoubleSlider {
   }
 
   handlerDocumentPointerUp = (event) => {
-    event.preventDefault();
     this.element.classList.remove('range-slider_dragging');
     this.activeTarget = null;
     this.progressBarBoundingClientRectX = null;
-    document.removeEventListener("pointermove", this.handlerDocumentPointerMove);
 
+    document.removeEventListener("pointermove", this.handlerDocumentPointerMove);
     this.generateCustomEvent();
   }
 
