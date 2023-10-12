@@ -51,8 +51,8 @@ export default class DoubleSlider {
 
   get min() { return this.options.min }
   get max() { return this.options.max }
-  get from() { return this.options.selected.from }
-  get to() { return this.options.selected.to }
+  get from() { return Number(this.options.selected.from) }
+  get to() { return Number(this.options.selected.to) }
   get progressBarWidth() { return this.subElements.inner.offsetWidth }
   get minMaxDifference() { return this.max - this.min }
   get progressBarClientRectX() { return this.subElements.inner.getBoundingClientRect().x }
@@ -72,6 +72,8 @@ export default class DoubleSlider {
     this.activeTarget = null;
     this.progressBarBoundingClientRectX = null;
     document.removeEventListener("pointermove", this.handlerDocumentPointerMove);
+
+    this.generateCustomEvent();
   }
 
   handlerDocumentPointerMove = (event) => {
@@ -97,6 +99,15 @@ export default class DoubleSlider {
 
     }
     console.log(`shiftX: ${ shiftX }\nfrom: ${ newValue }\n(this.from, this.to): ${ this.from } ${ this.to }`);
+  }
+
+  generateCustomEvent() {
+    this.element.dispatchEvent(
+      new CustomEvent('slider-change', {
+        bubbles: true,
+        detail: { from: this.from, to: this.to }
+      }, { once: true })
+    );
   }
 
   createEventListeners() {
