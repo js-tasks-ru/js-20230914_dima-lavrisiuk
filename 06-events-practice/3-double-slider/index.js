@@ -103,7 +103,7 @@ export default class DoubleSlider {
 
   generateCustomEvent() {
     this.element.dispatchEvent(
-      new CustomEvent('slider-change', {
+      new CustomEvent('range-select', {
         bubbles: true,
         detail: { from: this.from, to: this.to }
       }, { once: true })
