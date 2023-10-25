@@ -22,9 +22,9 @@ export default class DoubleSlider {
   get max() { return this.options.max }
   get from() { return Number(this.options.selected.from) }
   get to() { return Number(this.options.selected.to) }
-  get progressBarWidth() { return this.subElements.inner.offsetWidth }
+  get progressBarWidth() { return this.subElements.inner.offsetWidth || 1000 }
   get minMaxDifference() { return this.max - this.min }
-  get progressBarClientRectX() { return this.subElements.inner.getBoundingClientRect().x }
+  get progressBarClientRectX() { return this.subElements.inner.getBoundingClientRect().x || 0 }
 
   updateLeftSide(value) {
     const shiftPercentLeft = ((value - this.min) / this.minMaxDifference) * 100;
@@ -74,7 +74,7 @@ export default class DoubleSlider {
   handlerDocumentPointerMove = (event) => {
     event.preventDefault();
 
-    const shiftX = Number(event.clientX) - this.progressBarBoundingClientRectX;
+    const shiftX = event.clientX - this.progressBarBoundingClientRectX;
     const shiftPercent = (shiftX / this.progressBarWidth) * 100;
     const newValue = this.min + ((this.minMaxDifference / 100) * shiftPercent);
 
